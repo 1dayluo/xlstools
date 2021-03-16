@@ -53,8 +53,11 @@ async def xlsdata(file:bytes=File(...),sheet: int = 0,colindex: int = 12):
 
 @app.post("/uploadfile/")
 async def create_upload_file(file: UploadFile = File(...),colindex:int=12):
-    filecontent = await file.read()
+    if(file.filename.split('.')[-1] == 'xlsx' or file.filename.split('.')[-1] == 'xlsx'):
+        filecontent = await file.read()
 
-    datas = xls_read(filecontent,colindex)
+        datas = xls_read(filecontent,colindex)
 
-    return datas
+        return datas
+    else:
+        return '请检查文件格式是否为xls'
